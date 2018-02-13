@@ -24,7 +24,7 @@ public class TenantService
     {
         tenant.setEmail(tenant.getEmail().toLowerCase());
         tenant.setPassword(getPasswordEncoder().encode(tenant.getPassword()));
-        tenant.setBalance(0);
+        tenant.setBalance(0.0);
 
         tenantRepository.save(tenant);
     }
