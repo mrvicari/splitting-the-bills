@@ -1,0 +1,3 @@
+INSERT INTO tenant (name, email, password, balance) VALUES ('Joe', 'joe@live.com', '$2a$10$3MmEGEL2j2XhLsOd0RtyzOwscUVLha3bZeK8bfd88DpTuxZNuIdSe', 0);
+INSERT INTO tenant (name, email, password, balance) VALUES ('Jack', 'jack@live.com', '$2a$10$3MmEGEL2j2XhLsOd0RtyzOwscUVLha3bZeK8bfd88DpTuxZNuIdSe', 0);
+INSERT INTO tenant (name, email, password, balance) VALUES ('James', 'james@live.com', '$2a$10$3MmEGEL2j2XhLsOd0RtyzOwscUVLha3bZeK8bfd88DpTuxZNuIdSe', 0);
