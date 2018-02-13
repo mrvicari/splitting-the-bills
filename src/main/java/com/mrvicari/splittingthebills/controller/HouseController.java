@@ -23,7 +23,7 @@ public class HouseController
     }
 
     @PostMapping("/house")
-    public createHouse(@RequestBody House house)
+    public void createHouse(@RequestBody House house)
     {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName();
