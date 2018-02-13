@@ -31,7 +31,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 .scopes("read", "write")
                 .resourceIds("oauth2-resource")
                 .accessTokenValiditySeconds(3600)
-                .secret("secret")
+                .secret("secret");
     }
 
     @Override
