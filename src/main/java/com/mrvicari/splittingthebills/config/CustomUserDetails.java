@@ -1,6 +1,7 @@
 package com.mrvicari.splittingthebills.config;
 
 
+import com.mrvicari.splittingthebills.model.Tenant;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -11,10 +12,10 @@ public class CustomUserDetails implements UserDetails
     private String username;
     private String password;
 
-    public CustomUserDetails(String username, String password)
+    public CustomUserDetails(Tenant tenant)
     {
-        this.username = username;
-        this.password = password;
+        this.username = tenant.getEmail();
+        this.password = tenant.getPassword();
     }
 
     @Override
