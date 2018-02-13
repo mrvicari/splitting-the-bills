@@ -15,7 +15,7 @@ public class BillController
     @Autowired
     private BillService billService;
 
-    @PostMapping("/bills")
+    @PostMapping("/bill")
     public void createBill(@RequestBody Bill bill)
     {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();

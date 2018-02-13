@@ -13,7 +13,7 @@ public class HouseController
     @Autowired
     private HouseService houseService;
 
-    @GetMapping("/houses")
+    @GetMapping("/house")
     public House getCurrentTenantHouse()
     {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -22,7 +22,7 @@ public class HouseController
         return houseService.getCurrentTenantHouse(email);
     }
 
-    @PostMapping("/houses")
+    @PostMapping("/house")
     public createHouse(@RequestBody House house)
     {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -31,7 +31,7 @@ public class HouseController
         houseService.createHouse(house, email);
     }
 
-    @PutMapping("/houses/{houseName}/join")
+    @PutMapping("/house/{houseName}/join")
     public void joinHouse(@PathVariable String houseName)
     {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
