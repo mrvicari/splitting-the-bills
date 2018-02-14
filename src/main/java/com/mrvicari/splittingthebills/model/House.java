@@ -20,6 +20,9 @@ public class House
     @OneToMany
     private List<Bill> bills = new ArrayList<>();
 
+    @OneToMany
+    private List<Message> messages = new ArrayList<>();
+
     public House()
     {
     }
@@ -67,5 +70,15 @@ public class House
     public void setBills(List<Bill> bills)
     {
         this.bills = bills;
+    }
+
+    public List<Message> getMessages()
+    {
+        return messages;
+    }
+
+    public void setMessages(List<Message> messages)
+    {
+        this.messages = messages;
     }
 }
