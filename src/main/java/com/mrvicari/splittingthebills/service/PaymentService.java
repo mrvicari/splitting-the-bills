@@ -27,8 +27,9 @@ public class PaymentService
         int numOfTenants = payment.getTenants().size();
         double billAmount = payment.getAmount();
 
-        for (Tenant t : payment.getTenants())
+        for (Tenant tPayment : payment.getTenants())
         {
+            Tenant t = tenantRepository.findOne(tPayment.getId());
             if (t.getId().equals(tenant.getId()))
             {
                 t.setBalance(t.getBalance() + billAmount - billAmount/numOfTenants);
@@ -39,6 +40,7 @@ public class PaymentService
             }
             tenantRepository.save(t);
         }
+        System.out.println(tenant.getHouse());
     }
 
     public List<Payment> getAllPayments()

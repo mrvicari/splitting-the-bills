@@ -4,6 +4,7 @@ import com.mrvicari.splittingthebills.model.Bill;
 import com.mrvicari.splittingthebills.model.House;
 import com.mrvicari.splittingthebills.model.Tenant;
 import com.mrvicari.splittingthebills.repository.BillRepository;
+import com.mrvicari.splittingthebills.repository.HouseRepository;
 import com.mrvicari.splittingthebills.repository.TenantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,9 @@ public class BillService
     @Autowired
     private TenantRepository tenantRepository;
 
+    @Autowired
+    private HouseRepository houseRepository;
+
     public void createBill(Bill bill, String email)
     {
         Tenant tenant = tenantRepository.findByEmail(email);
@@ -26,21 +30,6 @@ public class BillService
 
         House house = tenant.getHouse();
         house.getBills().add(bill);
-
-        int numOfTenants = house.getTenants().size();
-        double billAmount = bill.getAmount();
-
-        for (Tenant t : house.getTenants())
-        {
-            if (t.getId().equals(tenant.getId()))
-            {
-                t.setBalance(t.getBalance() + billAmount - billAmount/numOfTenants);
-            }
-            else
-            {
-                t.setBalance(t.getBalance() - billAmount/numOfTenants);
-            }
-            tenantRepository.save(t);
-        }
+        houseRepository.save(house);
     }
 }

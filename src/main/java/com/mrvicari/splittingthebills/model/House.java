@@ -14,7 +14,7 @@ public class House
     private Integer id;
     private String name;
 
-    @OneToMany(mappedBy = "house")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "house", cascade = CascadeType.ALL)
     private List<Tenant> tenants = new ArrayList<>();
 
     @OneToMany
