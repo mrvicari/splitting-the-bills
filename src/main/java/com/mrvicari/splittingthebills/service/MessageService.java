@@ -34,6 +34,5 @@ public class MessageService
         House house = tenant.getHouse();
         house.getMessages().add(message);
         houseRepository.save(house);
-        System.out.println(house.getMessages().size());
     }
 }
