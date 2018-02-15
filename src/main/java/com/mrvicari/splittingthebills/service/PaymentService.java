@@ -20,24 +20,21 @@ public class PaymentService
 
     public void createPayment(Payment payment, String email)
     {
+        Tenant tenant = tenantRepository.findByEmail(email);
+        payment.setPayer(tenant);
         paymentRepository.save(payment);
 
-        Tenant tenant = tenantRepository.findByEmail(email);
-
-        int numOfTenants = payment.getTenants().size();
+        int numOfTenants = payment.getTenants().size() + 1;
         double billAmount = payment.getAmount();
+
+        tenant.setBalance(tenant.getBalance() + billAmount - billAmount/numOfTenants);
 
         for (Tenant tPayment : payment.getTenants())
         {
             Tenant t = tenantRepository.findOne(tPayment.getId());
-            if (t.getId().equals(tenant.getId()))
-            {
-                t.setBalance(t.getBalance() + billAmount - billAmount/numOfTenants);
-            }
-            else
-            {
-                t.setBalance(t.getBalance() - billAmount/numOfTenants);
-            }
+
+            t.setBalance(t.getBalance() - billAmount/numOfTenants);
+
             tenantRepository.save(t);
         }
     }

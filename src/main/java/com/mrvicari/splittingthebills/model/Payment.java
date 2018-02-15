@@ -14,6 +14,10 @@ public class Payment
     private String name;
     private Double amount;
 
+    @ManyToOne
+    @JoinColumn(name = "tenant_id")
+    private Tenant payer;
+
     @OneToMany
     private List<Tenant> tenants = new ArrayList<>();
 
@@ -56,6 +60,16 @@ public class Payment
     public void setAmount(Double amount)
     {
         this.amount = amount;
+    }
+
+    public Tenant getPayer()
+    {
+        return payer;
+    }
+
+    public void setPayer(Tenant payer)
+    {
+        this.payer = payer;
     }
 
     public List<Tenant> getTenants()
