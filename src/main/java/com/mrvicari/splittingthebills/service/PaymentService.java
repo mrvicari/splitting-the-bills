@@ -40,7 +40,6 @@ public class PaymentService
             }
             tenantRepository.save(t);
         }
-        System.out.println(tenant.getHouse());
     }
 
     public List<Payment> getAllPayments()
