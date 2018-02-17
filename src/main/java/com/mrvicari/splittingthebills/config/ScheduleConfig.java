@@ -55,7 +55,7 @@ public class ScheduleConfig
 
             Date today = new Date();
 
-            if (datePlusPeriod.before(today))
+            if (datePlusPeriod.before(today) || datePlusPeriod.equals(today))
             {
                 Tenant tenant = bill.getTenant();
                 House house = tenant.getHouse();
