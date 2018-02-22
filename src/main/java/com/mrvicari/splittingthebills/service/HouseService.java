@@ -30,7 +30,7 @@ public class HouseService
         house.getTenants().add(tenant);
         houseRepository.save(house);
 
-        House h = houseRepository.findHouseByName(house.getName());
+        House h = houseRepository.findOne(house.getId());
         tenant.setHouse(h);
         tenantRepository.save(tenant);
     }
