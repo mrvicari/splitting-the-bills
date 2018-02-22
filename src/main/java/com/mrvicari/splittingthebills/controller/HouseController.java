@@ -13,6 +13,7 @@ public class HouseController
     @Autowired
     private HouseService houseService;
 
+    @CrossOrigin(origins = "http://splitting-the-bills.miguelrv.c9users.io:8081")
     @GetMapping("/house")
     public House getCurrentTenantHouse()
     {
