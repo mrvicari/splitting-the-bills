@@ -9,12 +9,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@CrossOrigin
 public class TenantController
 {
     @Autowired
     private TenantService tenantService;
 
-    @CrossOrigin(origins = "http://splitting-the-bills.miguelrv.c9users.io:8081")
     @PostMapping("/register")
     public void createTenant(@RequestBody Tenant tenant)
     {
