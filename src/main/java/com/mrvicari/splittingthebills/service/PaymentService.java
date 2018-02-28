@@ -63,6 +63,16 @@ public class PaymentService
 
             payment.setAmount(paymentAmount);
         }
+        else if (payment.getPaymentType().equals(PaymentType.DIRECT))
+        {
+            Tenant payee = tenantRepository.findByEmail(payment.getTenants().get(0).getEmail());
+
+            payer.setBalance(payer.getBalance() + payment.getAmount());
+            payee.setBalance(payee.getBalance() - payment.getAmount());
+
+            tenantRepository.save(payer);
+            tenantRepository.save(payee);
+        }
 
         payment.setDate(new Date());
         paymentRepository.save(payment);
