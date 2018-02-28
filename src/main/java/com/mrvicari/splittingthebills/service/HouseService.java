@@ -35,9 +35,9 @@ public class HouseService
         tenantRepository.save(tenant);
     }
 
-    public void joinHouse(String houseName, String email)
+    public void joinHouse(String houseNameKeyphrase, String email)
     {
-        House house = houseRepository.findHouseByName(houseName);
+        House house = houseRepository.findHouseByNameKeyphrase(houseNameKeyphrase);
         Tenant tenant = tenantRepository.findByEmail(email);
 
         house.getTenants().add(tenant);

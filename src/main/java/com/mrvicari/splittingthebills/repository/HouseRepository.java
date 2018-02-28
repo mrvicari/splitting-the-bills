@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface HouseRepository extends CrudRepository<House, Integer>
 {
-    House findHouseByName(String name);
+    House findHouseByNameKeyphrase(String nameKeyphrase);
 
     House findHouseByTenantsContains(Tenant tenant);
 }

@@ -14,6 +14,9 @@ public class House
     private Integer id;
     private String name;
 
+    @Column(unique = true)
+    private String nameKeyphrase;
+
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "house", cascade = CascadeType.ALL)
     private List<Tenant> tenants = new ArrayList<>();
 
@@ -53,6 +56,16 @@ public class House
     public void setName(String name)
     {
         this.name = name;
+    }
+
+    public String getNameKeyphrase()
+    {
+        return nameKeyphrase;
+    }
+
+    public void setNameKeyphrase(String nameKeyphrase)
+    {
+        this.nameKeyphrase = nameKeyphrase;
     }
 
     public List<Tenant> getTenants()

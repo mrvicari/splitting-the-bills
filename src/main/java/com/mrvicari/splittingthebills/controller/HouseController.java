@@ -14,7 +14,6 @@ public class HouseController
     @Autowired
     private HouseService houseService;
 
-    @CrossOrigin(origins = "http://splitting-the-bills.miguelrv.c9users.io:8081")
     @GetMapping("/house")
     public House getCurrentTenantHouse()
     {
@@ -33,12 +32,12 @@ public class HouseController
         houseService.createHouse(house, email);
     }
 
-    @PutMapping("/house/{houseName}/join")
-    public void joinHouse(@PathVariable String houseName)
+    @PutMapping("/house/{houseNameKeyphrase}/join")
+    public void joinHouse(@PathVariable String houseNameKeyphrase)
     {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName();
 
-        houseService.joinHouse(houseName, email);
+        houseService.joinHouse(houseNameKeyphrase, email);
     }
 }
