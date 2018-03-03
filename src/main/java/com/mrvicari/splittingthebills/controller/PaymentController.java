@@ -28,13 +28,4 @@ public class PaymentController
 
         paymentService.createPayment(payment, email);
     }
-
-    @PostMapping("/payment/settle")
-    public void settlePayment(@RequestBody Tenant tenant)
-    {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String email = auth.getName();
-
-        paymentService.settlePayment(tenant, email);
-    }
 }

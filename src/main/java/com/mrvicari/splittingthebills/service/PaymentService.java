@@ -80,21 +80,4 @@ public class PaymentService
         house.getPayments().add(payment);
         houseRepository.save(house);
     }
-
-    public void settlePayment(Tenant tenant, String email)
-    {
-        Tenant payer = tenantRepository.findByEmail(email);
-        Tenant payee = tenantRepository.findByEmail(tenant.getEmail());
-
-        double payerBalance = payer.getBalance();
-        double payeeBalance = payee.getBalance();
-
-        double paymentAmount = Math.min(Math.abs(payerBalance), Math.abs(payeeBalance));
-
-        payer.setBalance(payerBalance + paymentAmount);
-        payee.setBalance(payeeBalance - paymentAmount);
-
-        tenantRepository.save(payer);
-        tenantRepository.save(payee);
-    }
 }
