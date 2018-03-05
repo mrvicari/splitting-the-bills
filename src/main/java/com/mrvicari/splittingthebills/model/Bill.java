@@ -19,8 +19,9 @@ public class Bill
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date date;
 
-    @Enumerated(EnumType.STRING)
-    private Period period;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private Date nextDate;
+    private Integer period;
 
     @ManyToOne
     @JoinColumn(name = "tenant_id")
@@ -30,7 +31,7 @@ public class Bill
     {
     }
 
-    public Bill(String name, Double amount, Date date, Period period)
+    public Bill(String name, Double amount, Date date, Integer period)
     {
         this.name = name;
         this.amount = amount;
@@ -78,12 +79,22 @@ public class Bill
         this.date = date;
     }
 
-    public Period getPeriod()
+    public Date getNextDate()
+    {
+        return nextDate;
+    }
+
+    public void setNextDate(Date nextDate)
+    {
+        this.nextDate = nextDate;
+    }
+
+    public Integer getPeriod()
     {
         return period;
     }
 
-    public void setPeriod(Period period)
+    public void setPeriod(Integer period)
     {
         this.period = period;
     }

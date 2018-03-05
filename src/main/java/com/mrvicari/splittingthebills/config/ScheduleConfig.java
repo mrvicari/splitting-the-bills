@@ -23,36 +23,13 @@ public class ScheduleConfig
     @Autowired
     private TenantRepository tenantRepository;
 
-    @Scheduled(fixedRate = 86400000)
+//    @Scheduled(fixedRate = 86400000)
+    @Scheduled(fixedRate = 10000)
     public void updateBills()
     {
         for (Bill bill : billRepository.findAll())
         {
-            int monthsOffset;
-
-            switch (bill.getPeriod())
-            {
-                case MONTHLY:
-                    monthsOffset = 1;
-                    break;
-                case QUARTERLY:
-                    monthsOffset = 3;
-                    break;
-                case BIANNUALLY:
-                    monthsOffset = 6;
-                    break;
-                case ANNUALLY:
-                    monthsOffset = 12;
-                    break;
-                default:
-                    monthsOffset = 9999;
-            }
-
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(bill.getDate());
-            calendar.add(Calendar.MONTH, monthsOffset);
-            Date datePlusPeriod = calendar.getTime();
-
+            Date datePlusPeriod = bill.getNextDate();
             Date today = new Date();
 
             if (datePlusPeriod.before(today) || datePlusPeriod.equals(today))
@@ -77,6 +54,14 @@ public class ScheduleConfig
                 }
 
                 bill.setDate(today);
+
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(today);
+                cal.add(Calendar.MONTH, bill.getPeriod());
+                Date nextDate = cal.getTime();
+
+                bill.setNextDate(nextDate);
+
                 billRepository.save(bill);
             }
         }

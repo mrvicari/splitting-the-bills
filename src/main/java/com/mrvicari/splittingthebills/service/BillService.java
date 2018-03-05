@@ -9,6 +9,9 @@ import com.mrvicari.splittingthebills.repository.TenantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Calendar;
+import java.util.Date;
+
 @Service
 public class BillService
 {
@@ -26,6 +29,14 @@ public class BillService
         Tenant tenant = tenantRepository.findByEmail(email);
 
         bill.setTenant(tenant);
+
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(bill.getDate());
+        cal.add(Calendar.MONTH, bill.getPeriod());
+        Date nextDate = cal.getTime();
+
+        bill.setNextDate(nextDate);
+
         billRepository.save(bill);
 
         House house = tenant.getHouse();
