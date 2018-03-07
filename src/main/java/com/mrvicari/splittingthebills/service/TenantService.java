@@ -20,6 +20,11 @@ public class TenantService
         return new BCryptPasswordEncoder();
     }
 
+    public Tenant getTenant(String email)
+    {
+        return tenantRepository.findByEmail(email);
+    }
+
     public void createTenant(Tenant tenant)
     {
         tenant.setEmail(tenant.getEmail().toLowerCase());
