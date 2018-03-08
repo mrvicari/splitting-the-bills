@@ -33,4 +33,18 @@ public class TenantService
 
         tenantRepository.save(tenant);
     }
+
+    public void editTenant(String email, Tenant editedTenant)
+    {
+        Tenant tenant = tenantRepository.findByEmail(email);
+
+        tenant.setName(editedTenant.getName());
+        tenant.setEmail(editedTenant.getEmail());
+        if (editedTenant.getPassword() != null && !editedTenant.getPassword().isEmpty())
+        {
+            tenant.setPassword(getPasswordEncoder().encode(editedTenant.getPassword()));
+        }
+
+        tenantRepository.save(tenant);
+    }
 }

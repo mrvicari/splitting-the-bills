@@ -28,4 +28,13 @@ public class TenantController
 
         return tenantService.getTenant(email);
     }
+
+    @PutMapping("/tenant")
+    public void editTenant(@RequestBody Tenant tenant)
+    {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String email = auth.getName();
+
+        tenantService.editTenant(email, tenant);
+    }
 }
