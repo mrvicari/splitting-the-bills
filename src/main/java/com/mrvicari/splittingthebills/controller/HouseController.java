@@ -33,11 +33,20 @@ public class HouseController
     }
 
     @PutMapping("/house/{houseNameKeyphrase}/join")
-    public void joinHouse(@PathVariable String houseNameKeyphrase)
+    public void joinHouse(@PathVariable String houseNameKeyphrase) throws Exception
     {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName();
 
         houseService.joinHouse(houseNameKeyphrase, email);
+    }
+
+    @PutMapping("/house/leave")
+    public void leaveHouse() throws Exception
+    {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String email = auth.getName();
+
+        houseService.leaveHouse(email);
     }
 }
