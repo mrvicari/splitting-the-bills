@@ -46,23 +46,6 @@ public class PaymentService
                 tenantRepository.save(t);
             }
         }
-        else if (payment.getPaymentType().equals(PaymentType.SETTLE))
-        {
-            Tenant payee = tenantRepository.findByEmail(payment.getTenants().get(0).getEmail());
-
-            double payerBalance = payer.getBalance();
-            double payeeBalance = payee.getBalance();
-
-            double paymentAmount = Math.min(Math.abs(payerBalance), Math.abs(payeeBalance));
-
-            payer.setBalance(payerBalance + paymentAmount);
-            payee.setBalance(payeeBalance - paymentAmount);
-
-            tenantRepository.save(payer);
-            tenantRepository.save(payee);
-
-            payment.setAmount(paymentAmount);
-        }
         else if (payment.getPaymentType().equals(PaymentType.DIRECT))
         {
             Tenant payee = tenantRepository.findByEmail(payment.getTenants().get(0).getEmail());
