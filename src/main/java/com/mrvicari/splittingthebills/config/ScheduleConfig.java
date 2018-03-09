@@ -1,9 +1,9 @@
 package com.mrvicari.splittingthebills.config;
 
-import com.mrvicari.splittingthebills.model.Bill;
-import com.mrvicari.splittingthebills.model.House;
-import com.mrvicari.splittingthebills.model.Tenant;
+import com.mrvicari.splittingthebills.model.*;
 import com.mrvicari.splittingthebills.repository.BillRepository;
+import com.mrvicari.splittingthebills.repository.HouseRepository;
+import com.mrvicari.splittingthebills.repository.PaymentRepository;
 import com.mrvicari.splittingthebills.repository.TenantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -22,6 +22,12 @@ public class ScheduleConfig
 
     @Autowired
     private TenantRepository tenantRepository;
+
+    @Autowired
+    private PaymentRepository paymentRepository;
+
+    @Autowired
+    private HouseRepository houseRepository;
 
 //    @Scheduled(fixedRate = 86400000)
     @Scheduled(fixedRate = 10000)
@@ -63,6 +69,25 @@ public class ScheduleConfig
                 bill.setNextDate(nextDate);
 
                 billRepository.save(bill);
+
+                Payment payment = new Payment();
+                payment.setName(bill.getName());
+                payment.setDate(today);
+                payment.setAmount(billAmount);
+                payment.setPaymentType(PaymentType.BILL);
+                payment.setPayer(tenant);
+                for (Tenant t : house.getTenants())
+                {
+                    if (!t.getId().equals(tenant.getId()))
+                    {
+                        payment.getTenants().add(t);
+                    }
+                }
+
+                paymentRepository.save(payment);
+
+                house.getPayments().add(payment);
+                houseRepository.save(house);
             }
         }
     }

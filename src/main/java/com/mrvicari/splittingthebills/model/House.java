@@ -23,7 +23,7 @@ public class House
     @OneToMany
     private List<Bill> bills = new ArrayList<>();
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     private List<Payment> payments = new ArrayList<>();
 
     @OneToMany
