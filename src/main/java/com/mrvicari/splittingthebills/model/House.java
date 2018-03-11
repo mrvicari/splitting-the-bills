@@ -13,6 +13,7 @@ public class House
     @Column(name = "house_id")
     private Integer id;
     private String name;
+    private String keyphrase;
 
     @Column(unique = true)
     private String nameKeyphrase;
@@ -56,6 +57,16 @@ public class House
     public void setName(String name)
     {
         this.name = name;
+    }
+
+    public String getKeyphrase()
+    {
+        return keyphrase;
+    }
+
+    public void setKeyphrase(String keyphrase)
+    {
+        this.keyphrase = keyphrase;
     }
 
     public String getNameKeyphrase()
