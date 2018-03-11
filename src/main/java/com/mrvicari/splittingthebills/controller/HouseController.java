@@ -32,6 +32,15 @@ public class HouseController
         houseService.createHouse(house, email);
     }
 
+    @PutMapping("/house")
+    public void editHouse(@RequestBody House house)
+    {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String email = auth.getName();
+
+        houseService.editHouse(email, house);
+    }
+
     @PutMapping("/house/{houseNameKeyphrase}/join")
     public void joinHouse(@PathVariable String houseNameKeyphrase) throws Exception
     {

@@ -35,6 +35,17 @@ public class HouseService
         tenantRepository.save(tenant);
     }
 
+    public void editHouse (String email, House editedHouse)
+    {
+        House house = tenantRepository.findByEmail(email).getHouse();
+
+        house.setName(editedHouse.getName());
+        house.setKeyphrase(editedHouse.getKeyphrase());
+        house.setNameKeyphrase(editedHouse.getNameKeyphrase());
+
+        houseRepository.save(house);
+    }
+
     public void joinHouse(String houseNameKeyphrase, String email) throws Exception
     {
         try
