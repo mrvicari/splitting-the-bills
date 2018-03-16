@@ -30,17 +30,23 @@ public class BillService
 
         bill.setTenant(tenant);
 
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(bill.getDate());
-        cal.add(Calendar.MONTH, bill.getPeriod());
-        Date nextDate = cal.getTime();
-
-        bill.setNextDate(nextDate);
-
         billRepository.save(bill);
 
         House house = tenant.getHouse();
         house.getBills().add(bill);
         houseRepository.save(house);
+    }
+
+    public void editBill (Bill editedBill)
+    {
+        Bill bill = billRepository.findOne(editedBill.getId());
+
+        bill.setName(editedBill.getName());
+        bill.setAmount(editedBill.getAmount());
+        bill.setNextDate(editedBill.getNextDate());
+        bill.setPeriod(editedBill.getPeriod());
+        bill.setTenant(editedBill.getTenant());
+
+        billRepository.save(bill);
     }
 }

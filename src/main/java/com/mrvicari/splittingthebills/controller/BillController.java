@@ -7,10 +7,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin
@@ -28,5 +25,12 @@ public class BillController
         String email = auth.getName();
 
         billService.createBill(bill, email);
+    }
+
+    @PutMapping("/bill")
+    @ApiOperation(value = "Edit a bill")
+    public void editBill(@RequestBody Bill bill)
+    {
+        billService.editBill(bill);
     }
 }
