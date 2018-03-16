@@ -37,9 +37,9 @@ public class BillService
         houseRepository.save(house);
     }
 
-    public void editBill (Bill editedBill)
+    public void editBill(Bill editedBill, Integer billId)
     {
-        Bill bill = billRepository.findOne(editedBill.getId());
+        Bill bill = billRepository.findOne(billId);
 
         bill.setName(editedBill.getName());
         bill.setAmount(editedBill.getAmount());
@@ -48,5 +48,14 @@ public class BillService
         bill.setTenant(editedBill.getTenant());
 
         billRepository.save(bill);
+    }
+
+    public void deleteBill(String email, Integer billId)
+    {
+        Bill bill = billRepository.findOne(billId);
+        House house = houseRepository.findHouseByTenantsContains(tenantRepository.findByEmail(email));
+
+        house.getBills().remove(bill);
+        billRepository.delete(bill);
     }
 }

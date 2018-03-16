@@ -27,10 +27,20 @@ public class BillController
         billService.createBill(bill, email);
     }
 
-    @PutMapping("/bill")
+    @PutMapping("/bill/{billId}")
     @ApiOperation(value = "Edit a bill")
-    public void editBill(@RequestBody Bill bill)
+    public void editBill(@RequestBody Bill bill, @PathVariable Integer billId)
     {
-        billService.editBill(bill);
+        billService.editBill(bill, billId);
+    }
+
+    @DeleteMapping("/bill/{billId}")
+    @ApiOperation(value = "Delete a bill")
+    public void deleteBill(@PathVariable Integer billId)
+    {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String email = auth.getName();
+
+        billService.deleteBill(email, billId);
     }
 }
