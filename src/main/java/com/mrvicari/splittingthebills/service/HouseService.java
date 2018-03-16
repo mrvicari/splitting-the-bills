@@ -1,5 +1,6 @@
 package com.mrvicari.splittingthebills.service;
 
+import com.mrvicari.splittingthebills.model.Bill;
 import com.mrvicari.splittingthebills.model.House;
 import com.mrvicari.splittingthebills.model.Tenant;
 import com.mrvicari.splittingthebills.repository.HouseRepository;
@@ -70,17 +71,23 @@ public class HouseService
         Tenant tenant = tenantRepository.findByEmail(email);
         House house = houseRepository.findHouseByTenantsContains(tenant);
 
-        if (tenant.getBalance() >= -0.1 && tenant.getBalance() <= 0.1)
-        {
-            house.getTenants().remove(tenant);
-            houseRepository.save(house);
-
-            tenant.setHouse(null);
-            tenantRepository.save(tenant);
-        }
-        else
+        if (tenant.getBalance() >= 0.1 || tenant.getBalance() <= -0.1)
         {
             throw new Exception("Balance must be 0 before leaving a house");
         }
+
+        for (Bill bill : house.getBills())
+        {
+            if (bill.getTenant().equals(tenant))
+            {
+                throw  new Exception("Must not be payer of any bills before leaving house");
+            }
+        }
+
+        house.getTenants().remove(tenant);
+        houseRepository.save(house);
+
+        tenant.setHouse(null);
+        tenantRepository.save(tenant);
     }
 }
