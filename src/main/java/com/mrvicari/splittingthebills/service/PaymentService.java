@@ -38,6 +38,7 @@ public class PaymentService
             double billAmount = payment.getAmount();
 
             payer.setBalance(payer.getBalance() + billAmount - billAmount/numOfTenants);
+            tenantRepository.save(payer);
 
             for (Tenant tPayment : payment.getTenants())
             {
@@ -64,5 +65,42 @@ public class PaymentService
         House house = payer.getHouse();
         house.getPayments().add(payment);
         houseRepository.save(house);
+    }
+
+    public void deletePayment(String email, Integer paymentId)
+    {
+        Payment payment = paymentRepository.findOne(paymentId);
+        House house = houseRepository.findHouseByTenantsContains(tenantRepository.findByEmail(email));
+
+        if (payment.getPaymentType().equals(PaymentType.SPLIT))
+        {
+            Tenant payer = payment.getPayer();
+
+            int numOfTenants = payment.getTenants().size() + 1;
+            double billAmount = payment.getAmount();
+
+            payer.setBalance(payer.getBalance() - billAmount + billAmount/numOfTenants);
+            tenantRepository.save(payer);
+
+            for (Tenant t : payment.getTenants())
+            {
+                t.setBalance(t.getBalance() + billAmount/numOfTenants);
+                tenantRepository.save(t);
+            }
+        }
+        else if (payment.getPaymentType().equals(PaymentType.DIRECT))
+        {
+            Tenant payer = payment.getPayer();
+            Tenant payee = payment.getTenants().get(0);
+
+            payer.setBalance(payer.getBalance() - payment.getAmount());
+            payee.setBalance(payee.getBalance() + payment.getAmount());
+
+            tenantRepository.save(payer);
+            tenantRepository.save(payee);
+        }
+
+        house.getPayments().remove(payment);
+        paymentRepository.delete(payment);
     }
 }

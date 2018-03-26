@@ -6,10 +6,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -33,5 +30,15 @@ public class PaymentController
         String email = auth.getName();
 
         paymentService.createPayment(payment, email);
+    }
+
+    @DeleteMapping("/payment/{paymentId}")
+    @ApiOperation(value = "Delete a payment")
+    public void deletePayment(@PathVariable Integer paymentId)
+    {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String email = auth.getName();
+
+        paymentService.deletePayment(email, paymentId);
     }
 }
