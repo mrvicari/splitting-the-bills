@@ -4,7 +4,6 @@ import com.mrvicari.splittingthebills.model.House;
 import com.mrvicari.splittingthebills.service.HouseService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -14,8 +13,12 @@ import org.springframework.web.bind.annotation.*;
 @Api(value = "House", description = "Operations about houses", tags = { "House" })
 public class HouseController
 {
-    @Autowired
     private HouseService houseService;
+
+    public HouseController(HouseService houseService)
+    {
+        this.houseService = houseService;
+    }
 
     @GetMapping("/house")
     @ApiOperation(value = "Get house")

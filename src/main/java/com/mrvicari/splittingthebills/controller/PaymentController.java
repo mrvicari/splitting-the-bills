@@ -1,11 +1,9 @@
 package com.mrvicari.splittingthebills.controller;
 
 import com.mrvicari.splittingthebills.model.Payment;
-import com.mrvicari.splittingthebills.model.Tenant;
 import com.mrvicari.splittingthebills.service.PaymentService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -20,8 +18,12 @@ import java.util.List;
 @Api(value = "Payment", description = "Operations about payments", tags = { "Payment" })
 public class PaymentController
 {
-    @Autowired
     private PaymentService paymentService;
+
+    public PaymentController(PaymentService paymentService)
+    {
+        this.paymentService = paymentService;
+    }
 
     @PostMapping("/payment")
     @ApiOperation(value = "Create a payment")

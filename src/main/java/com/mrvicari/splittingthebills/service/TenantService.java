@@ -2,7 +2,6 @@ package com.mrvicari.splittingthebills.service;
 
 import com.mrvicari.splittingthebills.model.Tenant;
 import com.mrvicari.splittingthebills.repository.TenantRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -11,8 +10,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class TenantService
 {
-    @Autowired
     private TenantRepository tenantRepository;
+
+    public TenantService(TenantRepository tenantRepository)
+    {
+        this.tenantRepository = tenantRepository;
+    }
 
     @Bean
     private PasswordEncoder getPasswordEncoder()

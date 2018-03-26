@@ -7,23 +7,25 @@ import com.mrvicari.splittingthebills.model.Tenant;
 import com.mrvicari.splittingthebills.repository.HouseRepository;
 import com.mrvicari.splittingthebills.repository.PaymentRepository;
 import com.mrvicari.splittingthebills.repository.TenantRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
-import java.util.List;
 
 @Service
 public class PaymentService
 {
-    @Autowired
     private PaymentRepository paymentRepository;
-
-    @Autowired
     private TenantRepository tenantRepository;
-
-    @Autowired
     private HouseRepository houseRepository;
+
+    public PaymentService(PaymentRepository paymentRepository,
+                          TenantRepository tenantRepository,
+                          HouseRepository houseRepository)
+    {
+        this.paymentRepository = paymentRepository;
+        this.tenantRepository = tenantRepository;
+        this.houseRepository = houseRepository;
+    }
 
     public void createPayment(Payment payment, String email)
     {

@@ -5,7 +5,6 @@ import com.mrvicari.splittingthebills.repository.BillRepository;
 import com.mrvicari.splittingthebills.repository.HouseRepository;
 import com.mrvicari.splittingthebills.repository.PaymentRepository;
 import com.mrvicari.splittingthebills.repository.TenantRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -17,19 +16,23 @@ import java.util.Date;
 @EnableScheduling
 public class ScheduleConfig
 {
-    @Autowired
     private BillRepository billRepository;
-
-    @Autowired
     private TenantRepository tenantRepository;
-
-    @Autowired
     private PaymentRepository paymentRepository;
-
-    @Autowired
     private HouseRepository houseRepository;
 
-//    @Scheduled(fixedRate = 86400000)
+    public ScheduleConfig(BillRepository billRepository,
+                          TenantRepository tenantRepository,
+                          PaymentRepository paymentRepository,
+                          HouseRepository houseRepository)
+    {
+        this.billRepository = billRepository;
+        this.tenantRepository = tenantRepository;
+        this.paymentRepository = paymentRepository;
+        this.houseRepository = houseRepository;
+    }
+
+//    @Scheduled(cron = "0 0 0 * * ?")
     @Scheduled(fixedRate = 10000)
     public void updateBills()
     {
@@ -70,25 +73,31 @@ public class ScheduleConfig
 
                 billRepository.save(bill);
 
-                Payment payment = new Payment();
-                payment.setName(bill.getName());
-                payment.setDate(today);
-                payment.setAmount(billAmount);
-                payment.setPaymentType(PaymentType.BILL);
-                payment.setPayer(tenant);
-                for (Tenant t : house.getTenants())
-                {
-                    if (!t.getId().equals(tenant.getId()))
-                    {
-                        payment.getTenants().add(t);
-                    }
-                }
-
-                paymentRepository.save(payment);
-
-                house.getPayments().add(payment);
-                houseRepository.save(house);
+                createPayment(bill.getName(), today, billAmount, tenant, house);
             }
         }
+    }
+
+    private void createPayment(String billName, Date today, Double billAmount, Tenant payer, House house)
+    {
+        Payment payment = new Payment();
+        payment.setName(billName);
+        payment.setDate(today);
+        payment.setAmount(billAmount);
+        payment.setPaymentType(PaymentType.BILL);
+        payment.setPayer(payer);
+
+        for (Tenant t : house.getTenants())
+        {
+            if (!t.getId().equals(payer.getId()))
+            {
+                payment.getTenants().add(t);
+            }
+        }
+
+        paymentRepository.save(payment);
+
+        house.getPayments().add(payment);
+        houseRepository.save(house);
     }
 }

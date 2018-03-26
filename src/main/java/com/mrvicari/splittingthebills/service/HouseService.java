@@ -5,17 +5,19 @@ import com.mrvicari.splittingthebills.model.House;
 import com.mrvicari.splittingthebills.model.Tenant;
 import com.mrvicari.splittingthebills.repository.HouseRepository;
 import com.mrvicari.splittingthebills.repository.TenantRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class HouseService
 {
-    @Autowired
     private HouseRepository houseRepository;
-
-    @Autowired
     private TenantRepository tenantRepository;
+
+    public HouseService(HouseRepository houseRepository, TenantRepository tenantRepository)
+    {
+        this.houseRepository = houseRepository;
+        this.tenantRepository = tenantRepository;
+    }
 
     public House getCurrentTenantHouse(String email)
     {

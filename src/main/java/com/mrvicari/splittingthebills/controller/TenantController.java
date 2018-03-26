@@ -4,7 +4,6 @@ import com.mrvicari.splittingthebills.model.Tenant;
 import com.mrvicari.splittingthebills.service.TenantService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -14,8 +13,12 @@ import org.springframework.web.bind.annotation.*;
 @Api(value = "Tenant", description = "Operations about tenants", tags = { "Tenant" })
 public class TenantController
 {
-    @Autowired
     private TenantService tenantService;
+
+    public TenantController(TenantService tenantService)
+    {
+        this.tenantService = tenantService;
+    }
 
     @PostMapping("/tenant/register")
     @ApiOperation(value = "Register a tenant")

@@ -6,23 +6,23 @@ import com.mrvicari.splittingthebills.model.Tenant;
 import com.mrvicari.splittingthebills.repository.BillRepository;
 import com.mrvicari.splittingthebills.repository.HouseRepository;
 import com.mrvicari.splittingthebills.repository.TenantRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Calendar;
-import java.util.Date;
 
 @Service
 public class BillService
 {
-    @Autowired
     private BillRepository billRepository;
-
-    @Autowired
     private TenantRepository tenantRepository;
-
-    @Autowired
     private HouseRepository houseRepository;
+
+    public BillService(BillRepository billRepository,
+                       TenantRepository tenantRepository,
+                       HouseRepository houseRepository)
+    {
+        this.billRepository = billRepository;
+        this.tenantRepository = tenantRepository;
+        this.houseRepository = houseRepository;
+    }
 
     public void createBill(Bill bill, String email)
     {
