@@ -7,27 +7,50 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+/**
+ * Service class containing business logic related to Tenants
+ */
 @Service
 public class TenantService
 {
+    /**
+     * Repository for database interaction regarding Tenants
+     */
     private TenantRepository tenantRepository;
 
+    /**
+     * Constructor to inject repository dependencies
+     * @param tenantRepository repository for database interaction regarding Tenants
+     */
     public TenantService(TenantRepository tenantRepository)
     {
         this.tenantRepository = tenantRepository;
     }
 
+    /**
+     * Create a password encoder for encryption
+     * @return new BCryptPasswordEncoder
+     */
     @Bean
     private PasswordEncoder getPasswordEncoder()
     {
         return new BCryptPasswordEncoder();
     }
 
+    /**
+     * Retrieve a single Tenant's details
+     * @param email email of the Tenant sending the request
+     * @return Tenant object found
+     */
     public Tenant getTenant(String email)
     {
         return tenantRepository.findByEmail(email);
     }
 
+    /**
+     * Save Tenant object upon user registration
+     * @param tenant Tenant object passed in through HTTP request
+     */
     public void createTenant(Tenant tenant)
     {
         tenant.setEmail(tenant.getEmail().toLowerCase());
@@ -37,6 +60,11 @@ public class TenantService
         tenantRepository.save(tenant);
     }
 
+    /**
+     * Edit a Tenant's fields based on incoming data
+     * @param email email of the Tenant sending the request
+     * @param editedTenant Tenant with updated values
+     */
     public void editTenant(String email, Tenant editedTenant)
     {
         Tenant tenant = tenantRepository.findByEmail(email);

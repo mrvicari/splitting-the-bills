@@ -7,18 +7,38 @@ import com.mrvicari.splittingthebills.repository.HouseRepository;
 import com.mrvicari.splittingthebills.repository.TenantRepository;
 import org.springframework.stereotype.Service;
 
+/**
+ * Service class containing business logic related to Houses
+ */
 @Service
 public class HouseService
 {
+    /**
+     * Repository for database interaction regarding Houses
+     */
     private HouseRepository houseRepository;
+
+    /**
+     * Repository for database interaction regarding Tenants
+     */
     private TenantRepository tenantRepository;
 
+    /**
+     * Constructor to inject repository dependencies
+     * @param houseRepository repository for database interaction regarding Houses
+     * @param tenantRepository repository for database interaction regarding Tenants
+     */
     public HouseService(HouseRepository houseRepository, TenantRepository tenantRepository)
     {
         this.houseRepository = houseRepository;
         this.tenantRepository = tenantRepository;
     }
 
+    /**
+     * Retrieve the House of the Tenant sending the request
+     * @param email email address of the Tenant sending the request
+     * @return House object found
+     */
     public House getCurrentTenantHouse(String email)
     {
         Tenant tenant = tenantRepository.findByEmail(email);
@@ -26,6 +46,11 @@ public class HouseService
         return houseRepository.findHouseByTenantsContains(tenant);
     }
 
+    /**
+     * Save House object and assign requesting Tenant to it
+     * @param house House object passed in through HTTP request
+     * @param email email address of the Tenant sending the request
+     */
     public void createHouse(House house, String email)
     {
         Tenant tenant = tenantRepository.findByEmail(email);
@@ -38,6 +63,11 @@ public class HouseService
         tenantRepository.save(tenant);
     }
 
+    /**
+     * Edit a House's fields based on incoming data
+     * @param email email address of the Tenant sending the request
+     * @param editedHouse House with updated values
+     */
     public void editHouse (String email, House editedHouse)
     {
         House house = tenantRepository.findByEmail(email).getHouse();
@@ -49,6 +79,12 @@ public class HouseService
         houseRepository.save(house);
     }
 
+    /**
+     * Add a Tenant to a House's list of Tenants
+     * @param houseNameKeyphrase name and keyphrase House identifier
+     * @param email email address of the Tenant sending the request
+     * @throws Exception house with name and keyphrase combination not found
+     */
     public void joinHouse(String houseNameKeyphrase, String email) throws Exception
     {
         try
@@ -68,6 +104,11 @@ public class HouseService
         }
     }
 
+    /**
+     * Remove a Tenant from a House's list of Tenants
+     * @param email email address of the Tenant sending the request
+     * @throws Exception Tenant is not allowed to leave the house
+     */
     public void leaveHouse(String email) throws Exception
     {
         Tenant tenant = tenantRepository.findByEmail(email);

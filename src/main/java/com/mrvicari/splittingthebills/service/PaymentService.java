@@ -11,11 +11,25 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 
+/**
+ * Service class containing business logic related to Payments
+ */
 @Service
 public class PaymentService
 {
+    /**
+     * Repository for database interaction regarding Payments
+     */
     private PaymentRepository paymentRepository;
+
+    /**
+     * Repository for database interaction regarding Tenants
+     */
     private TenantRepository tenantRepository;
+
+    /**
+     * Repository for database interaction regarding Houses
+     */
     private HouseRepository houseRepository;
 
     public PaymentService(PaymentRepository paymentRepository,
@@ -27,6 +41,11 @@ public class PaymentService
         this.houseRepository = houseRepository;
     }
 
+    /**
+     * Create a Payment object and assign it to the corresponding House
+     * @param payment Payment object passed in through HTTP request
+     * @param email email address of the Tenant sending the request
+     */
     public void createPayment(Payment payment, String email)
     {
         Tenant payer = tenantRepository.findByEmail(email);
@@ -37,9 +56,11 @@ public class PaymentService
             int numOfTenants = payment.getTenants().size() + 1;
             double billAmount = payment.getAmount();
 
+            // Add to payer's balance
             payer.setBalance(payer.getBalance() + billAmount - billAmount/numOfTenants);
             tenantRepository.save(payer);
 
+            // Subtract from others' balance
             for (Tenant tPayment : payment.getTenants())
             {
                 Tenant t = tenantRepository.findOne(tPayment.getId());
@@ -60,13 +81,21 @@ public class PaymentService
             tenantRepository.save(payee);
         }
 
+        // Set date to today
         payment.setDate(new Date());
         paymentRepository.save(payment);
+
+        // Assign payment to house
         House house = payer.getHouse();
         house.getPayments().add(payment);
         houseRepository.save(house);
     }
 
+    /**
+     * Remove a Payment from the database permanently
+     * @param email email address of the Tenant sending the request
+     * @param paymentId identifier of the Payment to be deleted
+     */
     public void deletePayment(String email, Integer paymentId)
     {
         Payment payment = paymentRepository.findOne(paymentId);
