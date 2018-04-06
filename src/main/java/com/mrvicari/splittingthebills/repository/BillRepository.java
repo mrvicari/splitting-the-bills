@@ -6,9 +6,10 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+/**
+ * Repository for database interaction regarding Bills
+ */
 @Repository
 public interface BillRepository extends CrudRepository<Bill, Integer>
 {
-    @Override
-    List<Bill> findAll();
 }

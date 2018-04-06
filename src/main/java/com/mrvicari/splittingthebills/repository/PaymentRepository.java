@@ -6,9 +6,10 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+/**
+ * Repository for database interaction regarding Payments
+ */
 @Repository
 public interface PaymentRepository extends CrudRepository<Payment, Integer>
 {
-    @Override
-    List<Payment> findAll();
 }
