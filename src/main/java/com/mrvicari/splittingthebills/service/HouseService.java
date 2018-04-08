@@ -50,6 +50,7 @@ public class HouseService
      * Save House object and assign requesting Tenant to it
      * @param house House object passed in through HTTP request
      * @param email email address of the Tenant sending the request
+     * @throws Exception house with name and keyphrase combination already exists
      */
     public void createHouse(House house, String email) throws Exception
     {

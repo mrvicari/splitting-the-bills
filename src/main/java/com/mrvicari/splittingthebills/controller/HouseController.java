@@ -47,6 +47,7 @@ public class HouseController
     /**
      * Process request for creating a House
      * @param house House object passed in HTTP request body
+     * @throws Exception house with name and keyphrase combination
      */
     @PostMapping("/house")
     @ApiOperation(value = "Create a house")
