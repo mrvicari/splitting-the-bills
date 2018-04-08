@@ -1,6 +1,7 @@
 package com.mrvicari.splittingthebills.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Data;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -10,7 +11,7 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "bill")
-public class Bill
+@Data public class Bill
 {
     /**
      * Unique identifier of the Bill
@@ -60,75 +61,5 @@ public class Bill
     public Bill()
     {
         // Hibernate only requires no-arg constructor
-    }
-
-    public Integer getId()
-    {
-        return id;
-    }
-
-    public void setId(Integer id)
-    {
-        this.id = id;
-    }
-
-    public String getName()
-    {
-        return name;
-    }
-
-    public void setName(String name)
-    {
-        this.name = name;
-    }
-
-    public Double getAmount()
-    {
-        return amount;
-    }
-
-    public void setAmount(Double amount)
-    {
-        this.amount = amount;
-    }
-
-    public Date getDate()
-    {
-        return date;
-    }
-
-    public void setDate(Date date)
-    {
-        this.date = date;
-    }
-
-    public Date getNextDate()
-    {
-        return nextDate;
-    }
-
-    public void setNextDate(Date nextDate)
-    {
-        this.nextDate = nextDate;
-    }
-
-    public Integer getPeriod()
-    {
-        return period;
-    }
-
-    public void setPeriod(Integer period)
-    {
-        this.period = period;
-    }
-
-    public Tenant getTenant()
-    {
-        return tenant;
-    }
-
-    public void setTenant(Tenant tenant)
-    {
-        this.tenant = tenant;
     }
 }

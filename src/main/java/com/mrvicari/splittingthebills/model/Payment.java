@@ -1,6 +1,7 @@
 package com.mrvicari.splittingthebills.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Data;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -11,7 +12,8 @@ import java.util.List;
  * Entity class for the representation of a Payment
  */
 @Entity
-public class Payment
+@Table(name = "payment")
+@Data public class Payment
 {
     /**
      * Unique identifier of the Payment
@@ -61,75 +63,5 @@ public class Payment
     public Payment()
     {
         // Hibernate only requires no-arg constructor
-    }
-
-    public Integer getId()
-    {
-        return id;
-    }
-
-    public void setId(Integer id)
-    {
-        this.id = id;
-    }
-
-    public String getName()
-    {
-        return name;
-    }
-
-    public void setName(String name)
-    {
-        this.name = name;
-    }
-
-    public Double getAmount()
-    {
-        return amount;
-    }
-
-    public void setAmount(Double amount)
-    {
-        this.amount = amount;
-    }
-
-    public Date getDate()
-    {
-        return date;
-    }
-
-    public void setDate(Date date)
-    {
-        this.date = date;
-    }
-
-    public PaymentType getPaymentType()
-    {
-        return paymentType;
-    }
-
-    public void setPaymentType(PaymentType paymentType)
-    {
-        this.paymentType = paymentType;
-    }
-
-    public Tenant getPayer()
-    {
-        return payer;
-    }
-
-    public void setPayer(Tenant payer)
-    {
-        this.payer = payer;
-    }
-
-    public List<Tenant> getTenants()
-    {
-        return tenants;
-    }
-
-    public void setTenants(List<Tenant> tenants)
-    {
-        this.tenants = tenants;
     }
 }

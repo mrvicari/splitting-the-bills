@@ -1,5 +1,7 @@
 package com.mrvicari.splittingthebills.model;
 
+import lombok.Data;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +11,7 @@ import java.util.List;
  */
 @Entity
 @Table(name = "house")
-public class House
+@Data public class House
 {
     /**
      * Unique identifier of the House
@@ -65,85 +67,5 @@ public class House
     public House()
     {
         // Hibernate only requires no-arg constructor
-    }
-
-    public Integer getId()
-    {
-        return id;
-    }
-
-    public void setId(Integer id)
-    {
-        this.id = id;
-    }
-
-    public String getName()
-    {
-        return name;
-    }
-
-    public void setName(String name)
-    {
-        this.name = name;
-    }
-
-    public String getKeyphrase()
-    {
-        return keyphrase;
-    }
-
-    public void setKeyphrase(String keyphrase)
-    {
-        this.keyphrase = keyphrase;
-    }
-
-    public String getNameKeyphrase()
-    {
-        return nameKeyphrase;
-    }
-
-    public void setNameKeyphrase(String nameKeyphrase)
-    {
-        this.nameKeyphrase = nameKeyphrase;
-    }
-
-    public List<Tenant> getTenants()
-    {
-        return tenants;
-    }
-
-    public void setTenants(List<Tenant> tenants)
-    {
-        this.tenants = tenants;
-    }
-
-    public List<Bill> getBills()
-    {
-        return bills;
-    }
-
-    public void setBills(List<Bill> bills)
-    {
-        this.bills = bills;
-    }
-
-    public List<Payment> getPayments()
-    {
-        return payments;
-    }
-
-    public void setPayments(List<Payment> payments)
-    {
-        this.payments = payments;
-    }
-
-    public List<Message> getMessages()
-    {
-        return messages;
-    }
-
-    public void setMessages(List<Message> messages)
-    {
-        this.messages = messages;
     }
 }
