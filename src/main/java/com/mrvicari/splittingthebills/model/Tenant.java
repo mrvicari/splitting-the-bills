@@ -55,14 +55,7 @@ public class Tenant
      */
     public Tenant()
     {
-    }
-
-    public Tenant(String name, String email, String password, Double balance)
-    {
-        this.name = name;
-        this.email = email;
-        this.password = password;
-        this.balance = balance;
+        // Hibernate only requires no-arg constructor
     }
 
     public Integer getId()

@@ -7,7 +7,6 @@ import java.util.Date;
 
 /**
  * Entity class for the representation of a Bill
- * @author Miguel Restrepo Vicari
  */
 @Entity
 @Table(name = "bill")
@@ -60,21 +59,7 @@ public class Bill
      */
     public Bill()
     {
-    }
-
-    /**
-     * Contructs a new Bill with field values specified by the arguments of the same name
-     * @param name the name of the Bill
-     * @param amount the total cost of the Bill
-     * @param date the date when the Bill was last paid
-     * @param period Date when the Bill must be paid next
-     */
-    public Bill(String name, Double amount, Date date, Integer period)
-    {
-        this.name = name;
-        this.amount = amount;
-        this.date = date;
-        this.period = period;
+        // Hibernate only requires no-arg constructor
     }
 
     public Integer getId()

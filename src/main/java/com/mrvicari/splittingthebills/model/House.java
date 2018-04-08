@@ -6,7 +6,6 @@ import java.util.List;
 
 /**
  * Entity class for the representation of a House
- * @author Miguel Restrepo Vicari
  */
 @Entity
 @Table(name = "house")
@@ -65,11 +64,7 @@ public class House
      */
     public House()
     {
-    }
-
-    public House(String name)
-    {
-        this.name = name;
+        // Hibernate only requires no-arg constructor
     }
 
     public Integer getId()

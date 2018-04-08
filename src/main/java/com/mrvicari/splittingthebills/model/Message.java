@@ -43,13 +43,7 @@ public class Message
      */
     public Message()
     {
-    }
-
-    public Message(Integer id, Date date, String message)
-    {
-        this.id = id;
-        this.date = date;
-        this.message = message;
+        // Hibernate only requires no-arg constructor
     }
 
     public Integer getId()

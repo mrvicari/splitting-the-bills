@@ -9,7 +9,6 @@ import java.util.List;
 
 /**
  * Entity class for the representation of a Payment
- * @author Miguel Restrepo Vicari
  */
 @Entity
 public class Payment
@@ -61,14 +60,7 @@ public class Payment
      */
     public Payment()
     {
-    }
-
-    public Payment(Integer id, String name, Double amount, PaymentType paymentType)
-    {
-        this.id = id;
-        this.name = name;
-        this.amount = amount;
-        this.paymentType = paymentType;
+        // Hibernate only requires no-arg constructor
     }
 
     public Integer getId()
