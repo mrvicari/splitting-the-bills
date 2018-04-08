@@ -51,16 +51,23 @@ public class HouseService
      * @param house House object passed in through HTTP request
      * @param email email address of the Tenant sending the request
      */
-    public void createHouse(House house, String email)
+    public void createHouse(House house, String email) throws Exception
     {
-        Tenant tenant = tenantRepository.findByEmail(email);
+        try
+        {
+            Tenant tenant = tenantRepository.findByEmail(email);
 
-        house.getTenants().add(tenant);
-        houseRepository.save(house);
+            house.getTenants().add(tenant);
+            houseRepository.save(house);
 
-        House h = houseRepository.findOne(house.getId());
-        tenant.setHouse(h);
-        tenantRepository.save(tenant);
+            House h = houseRepository.findOne(house.getId());
+            tenant.setHouse(h);
+            tenantRepository.save(tenant);
+        }
+        catch (Exception e)
+        {
+            throw new Exception("House name and keyphrase combination already in use");
+        }
     }
 
     /**

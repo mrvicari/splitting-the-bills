@@ -50,7 +50,7 @@ public class HouseController
      */
     @PostMapping("/house")
     @ApiOperation(value = "Create a house")
-    public void createHouse(@RequestBody House house)
+    public void createHouse(@RequestBody House house) throws Exception
     {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName();
