@@ -7,6 +7,8 @@ import com.mrvicari.splittingthebills.repository.HouseRepository;
 import com.mrvicari.splittingthebills.repository.TenantRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Random;
+
 /**
  * Service class containing business logic related to Houses
  */
@@ -58,6 +60,15 @@ public class HouseService
         {
             Tenant tenant = tenantRepository.findByEmail(email);
 
+            Random random = new Random();
+            String charSet = "ABCDEFGHJKLMNOPQRSTUVWXYZ1234567890";
+
+            StringBuilder token = new StringBuilder(6);
+            for (int i = 0; i < 6; i++) {
+                token.append(charSet.charAt(random.nextInt(charSet.length())));
+            }
+
+            house.setCode(token.toString());
             house.getTenants().add(tenant);
             houseRepository.save(house);
 
@@ -89,15 +100,21 @@ public class HouseService
 
     /**
      * Add a Tenant to a House's list of Tenants
-     * @param houseNameKeyphrase name and keyphrase House identifier
+     * @param houseIdentifier name and keyphrase or code to uniquely identify a House
      * @param email email address of the Tenant sending the request
      * @throws Exception house with name and keyphrase combination not found
      */
-    public void joinHouse(String houseNameKeyphrase, String email) throws Exception
+    public void joinHouse(String houseIdentifier, String email) throws Exception
     {
         try
         {
-            House house = houseRepository.findHouseByNameKeyphrase(houseNameKeyphrase);
+            House house = houseRepository.findHouseByNameKeyphrase(houseIdentifier);
+
+            if (house == null)
+            {
+                house = houseRepository.findHouseByCode(houseIdentifier);
+            }
+
             Tenant tenant = tenantRepository.findByEmail(email);
 
             house.getTenants().add(tenant);
@@ -108,7 +125,7 @@ public class HouseService
         }
         catch (Exception e)
         {
-            throw new Exception("House name and keyphrase combination not found");
+            throw new Exception("House name and keyphrase combination or code not found");
         }
     }
 

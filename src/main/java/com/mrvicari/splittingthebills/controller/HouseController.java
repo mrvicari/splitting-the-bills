@@ -75,17 +75,17 @@ public class HouseController
 
     /**
      * Process request for joining a House
-     * @param houseNameKeyphrase name and keyphrase House identifier
+     * @param houseIdentifier name and keyphrase or code to uniquely identify a House
      * @throws Exception house with name and keyphrase combination not found
      */
-    @PutMapping("/house/{houseNameKeyphrase}/join")
+    @PutMapping("/house/{houseIdentifier}/join")
     @ApiOperation(value = "Join a house")
-    public void joinHouse(@PathVariable String houseNameKeyphrase) throws Exception
+    public void joinHouse(@PathVariable String houseIdentifier) throws Exception
     {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName();
 
-        houseService.joinHouse(houseNameKeyphrase, email);
+        houseService.joinHouse(houseIdentifier, email);
     }
 
     /**

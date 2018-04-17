@@ -24,4 +24,11 @@ public interface HouseRepository extends CrudRepository<House, Integer>
      * @return House object found
      */
     House findHouseByTenantsContains(Tenant tenant);
+
+    /**
+     * Retrieve a house give a unique code
+     * @param code code to search
+     * @return House object found
+     */
+    House findHouseByCode(String code);
 }

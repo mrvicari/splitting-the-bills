@@ -38,6 +38,12 @@ import java.util.List;
     private String nameKeyphrase;
 
     /**
+     * Six digit uniquely identifying code
+     */
+    @Column(unique = true)
+    private String code;
+
+    /**
      * Tenants who belong to the House
      */
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "house", cascade = CascadeType.ALL)
