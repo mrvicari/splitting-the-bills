@@ -6,9 +6,12 @@ import com.mrvicari.splittingthebills.repository.HouseRepository;
 import com.mrvicari.splittingthebills.repository.PaymentRepository;
 import com.mrvicari.splittingthebills.repository.TenantRepository;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -40,6 +43,7 @@ public class ScheduleConfig
      */
     private HouseRepository houseRepository;
 
+    private JavaMailSender javaMailSender;
 
     /**
      * Constructor to inject repository dependencies
@@ -51,14 +55,58 @@ public class ScheduleConfig
     public ScheduleConfig(BillRepository billRepository,
                           TenantRepository tenantRepository,
                           PaymentRepository paymentRepository,
-                          HouseRepository houseRepository)
+                          HouseRepository houseRepository,
+                          JavaMailSender javaMailSender)
     {
         this.billRepository = billRepository;
         this.tenantRepository = tenantRepository;
         this.paymentRepository = paymentRepository;
         this.houseRepository = houseRepository;
+        this.javaMailSender = javaMailSender;
     }
 
+    /**
+     * Notify (email) tenants with their and their house mates' balances
+     */
+//    @Scheduled(fixedRate = 30000)
+    @Scheduled(cron = "0 0 12 ? * SUN *")
+    public void balanceSummary()
+    {
+        for (House house: houseRepository.findAll())
+        {
+            for (Tenant tenant : house.getTenants())
+            {
+                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+                Date today = new Date();
+
+                SimpleMailMessage mail = new SimpleMailMessage();
+                mail.setTo(tenant.getEmail());
+                mail.setFrom("splittingthebills@gmail.com");
+                mail.setSubject("Balance summary " + sdf.format(today));
+
+                StringBuilder mailText = new StringBuilder();
+                mailText.append("Hi ");
+                mailText.append(tenant.getName());
+                mailText.append(",\n\nYour current balance is £");
+                mailText.append(tenant.getBalance());
+                mailText.append(".\n\nConsider settling up with your house mates:");
+                for (Tenant otherTenant : house.getTenants())
+                {
+                    if (!tenant.getId().equals(otherTenant.getId()))
+                    {
+                        mailText.append("\n");
+                        mailText.append(otherTenant.getName());
+                        mailText.append(": £");
+                        mailText.append(otherTenant.getBalance());
+                    }
+                }
+
+                mail.setText(mailText.toString());
+
+                javaMailSender.send(mail);
+            }
+        }
+    }
 
     /**
      * Check for Bills due and update balances where necessary (daily basis)
