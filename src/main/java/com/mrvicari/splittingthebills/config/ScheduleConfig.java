@@ -12,15 +12,42 @@ import org.springframework.scheduling.annotation.Scheduled;
 import java.util.Calendar;
 import java.util.Date;
 
+
+/**
+ * Schedule class for performing tasks given a certain schedule
+ */
 @Configuration
 @EnableScheduling
 public class ScheduleConfig
 {
+    /**
+     * Repository for database interaction regarding Bills
+     */
     private BillRepository billRepository;
+
+    /**
+     * Repository for database interaction regarding Tenants
+     */
     private TenantRepository tenantRepository;
+
+    /**
+     * Repository for database interaction regarding Payments
+     */
     private PaymentRepository paymentRepository;
+
+    /**
+     * Repository for database interaction regarding Houses
+     */
     private HouseRepository houseRepository;
 
+
+    /**
+     * Constructor to inject repository dependencies
+     * @param billRepository repository for database interaction regarding Bills
+     * @param tenantRepository repository for database interaction regarding Tenants
+     * @param paymentRepository repository for database interaction regarding Payments
+     * @param houseRepository repository for database interaction regarding Houses
+     */
     public ScheduleConfig(BillRepository billRepository,
                           TenantRepository tenantRepository,
                           PaymentRepository paymentRepository,
@@ -32,6 +59,10 @@ public class ScheduleConfig
         this.houseRepository = houseRepository;
     }
 
+
+    /**
+     * Check for Bills due and update balances where necessary (daily basis)
+     */
 //    @Scheduled(cron = "0 0 0 * * ?")
     @Scheduled(fixedRate = 10000)
     public void updateBills()
@@ -78,6 +109,14 @@ public class ScheduleConfig
         }
     }
 
+    /**
+     * Create a Payment entry when a Bill is paid
+     * @param billName name of the bill
+     * @param today today's date
+     * @param billAmount amount of the bill
+     * @param payer tenant who paid the bill
+     * @param house house to which the bill belongs to
+     */
     private void createPayment(String billName, Date today, Double billAmount, Tenant payer, House house)
     {
         Payment payment = new Payment();
