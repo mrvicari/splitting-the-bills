@@ -69,7 +69,7 @@ public class ScheduleConfig
      * Notify (email) tenants with their and their house mates' balances
      */
 //    @Scheduled(fixedRate = 30000)
-    @Scheduled(cron = "0 0 12 ? * SUN *")
+    @Scheduled(cron = "0 0 12 * * SUN")
     public void balanceSummary()
     {
         for (House house: houseRepository.findAll())
