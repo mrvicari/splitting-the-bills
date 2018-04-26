@@ -51,13 +51,20 @@ public class TenantService
      * Save Tenant object upon user registration
      * @param tenant Tenant object passed in through HTTP request
      */
-    public void createTenant(Tenant tenant)
+    public void createTenant(Tenant tenant) throws Exception
     {
-        tenant.setEmail(tenant.getEmail().toLowerCase());
-        tenant.setPassword(getPasswordEncoder().encode(tenant.getPassword()));
-        tenant.setBalance(0.0);
+        try
+        {
+            tenant.setEmail(tenant.getEmail().toLowerCase());
+            tenant.setPassword(getPasswordEncoder().encode(tenant.getPassword()));
+            tenant.setBalance(0.0);
 
-        tenantRepository.save(tenant);
+            tenantRepository.save(tenant);
+        }
+        catch (Exception e)
+        {
+            throw new Exception("Email already in use");
+        }
     }
 
     /**
@@ -65,7 +72,7 @@ public class TenantService
      * @param email email of the Tenant sending the request
      * @param editedTenant Tenant with updated values
      */
-    public void editTenant(String email, Tenant editedTenant)
+    public void editTenant(String email, Tenant editedTenant) throws Exception
     {
         Tenant tenant = tenantRepository.findByEmail(email);
 
@@ -76,6 +83,13 @@ public class TenantService
             tenant.setPassword(getPasswordEncoder().encode(editedTenant.getPassword()));
         }
 
-        tenantRepository.save(tenant);
+        try
+        {
+            tenantRepository.save(tenant);
+        }
+        catch (Exception e)
+        {
+            throw new Exception("Email already in use");
+        }
     }
 }

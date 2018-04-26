@@ -36,7 +36,7 @@ public class TenantController
      */
     @PostMapping("/tenant/register")
     @ApiOperation(value = "Register a tenant")
-    public void createTenant(@RequestBody Tenant tenant)
+    public void createTenant(@RequestBody Tenant tenant) throws Exception
     {
         tenantService.createTenant(tenant);
     }
@@ -61,7 +61,7 @@ public class TenantController
      */
     @PutMapping("/tenant")
     @ApiOperation(value = "Edit tenant")
-    public void editTenant(@RequestBody Tenant tenant)
+    public void editTenant(@RequestBody Tenant tenant) throws Exception
     {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName();
