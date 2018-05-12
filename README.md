@@ -4,10 +4,8 @@ This project is a web service that allows tenants to be grouped in with their fe
 
 ## Compilation and Execution
 
-Clone the git repository with `git clone https://github.com/mrvicari/splitting-the-bills.git`
-
-Navigate into top level directory and run `mvn clean package`
-
-Start the server with `java -jar target/splitting-the-bills-0.0.1-SNAPSHOT.jar`
+1. Download the repository
+2. Navigate into top level directory and run `mvn clean package`
+3. Start the server with `java -jar target/splitting-the-bills-0.0.1-SNAPSHOT.jar`
 
 The server will now be running in port 8080
